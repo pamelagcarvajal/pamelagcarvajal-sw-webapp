@@ -1,12 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/card.css";
 
 export const Card = (props) => {
+    const navigate = useNavigate();
 
     function agregar(nombre) {
         if (!props.favoritos.includes(nombre)) {
             props.function([...props.favoritos, nombre])
         }
+    }
+
+    function redirect(nombre) {
+        navigate("/details", { state: { nombre: nombre } });
     }
 
     return (
@@ -15,7 +21,7 @@ export const Card = (props) => {
             <div className="card-body">
                 <h5 className="card-tittle">{props.nombre}</h5>
                 {props.description}
-                <button onClick={() => { }} type="button" class="btn btn-outline-primary">Learn more!</button>
+                <button onClick={() => { redirect(props.nombre) }} type="button" class="btn btn-outline-primary">Learn more!</button>
                 <button onClick={() => { agregar(props.nombre) }} className="like border btn btn-outline-warning border-warning far fa-heart"> </button>
             </div>
         </div>

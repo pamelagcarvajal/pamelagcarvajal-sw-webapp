@@ -52,7 +52,7 @@ export const ListComponent = (props) => {
     }, [])
 
     return (
-        <><h1 class="text-danger">Characters</h1>
+        <><h1 class="text-danger distance">Characters</h1>
             <div style={divStyle}>
                 {listaPersonajes.map(personaje => {
                     return <Card
