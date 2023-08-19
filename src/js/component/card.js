@@ -12,7 +12,19 @@ export const Card = (props) => {
     }
 
     function redirect(nombre) {
-        navigate("/details", { state: { nombre: nombre } });
+        let lista = props.description.props.children.map((x) => {
+            if (typeof (x) == 'string' && x != " ") {
+                return x
+            }
+        })
+        lista.unshift(nombre)
+        lista.unshift('Name:')
+        navigate("/details", {
+            state: {
+                nombre: nombre,
+                description: lista
+            }
+        });
     }
 
     return (

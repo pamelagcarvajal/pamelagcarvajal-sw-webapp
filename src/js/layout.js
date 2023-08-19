@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 
@@ -17,13 +17,63 @@ const Layout = () => {
 
 	const [favoritos, setFavoritos] = useState([]);
 
+	const [listaPersonajes, setListaPersonajes] = useState([])
+	const [listaPlanetas, setListaPlanetas] = useState([])
+	const [listaNaves, setListaNaves] = useState([])
+
+	useEffect(() => {
+		const fetchPersonajes = async () => {
+			const data = await (
+				await fetch('https://swapi.dev/api/people/', {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json"
+					}
+				})).json();
+			setListaPersonajes(data.results);
+		};
+
+		const fetchPlanetas = async () => {
+			const data = await (
+				await fetch('https://swapi.dev/api/planets/', {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json"
+					}
+				})).json();
+			setListaPlanetas(data.results);
+		};
+
+		const fetchNaves = async () => {
+			const data = await (
+				await fetch('https://swapi.dev/api/starships/', {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json"
+					}
+				})).json();
+			setListaNaves(data.results);
+		};
+
+		fetchPersonajes();
+		fetchPlanetas();
+		fetchNaves();
+	}, [])
+
 	return (
 		<div>
 			<BrowserRouter basename={basename}>
 				<ScrollToTop>
 					<Navbar favoritos={favoritos} function={setFavoritos} />
 					<Routes>
-						<Route path="/" element={<ListComponent function={setFavoritos} favoritos={favoritos}/>} />
+						<Route path="/" element={
+							<ListComponent
+								function={setFavoritos}
+								favoritos={favoritos}
+								personajes={listaPersonajes}
+								planetas={listaPlanetas}
+								naves={listaNaves}
+							/>} />
 						<Route path="/details" element={<Details />} />
 						<Route path="*" element={<h1>Not found!</h1>} />
 					</Routes>

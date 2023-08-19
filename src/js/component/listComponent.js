@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Card } from "./card"
 
 const divStyle = {
@@ -8,48 +8,9 @@ const divStyle = {
 };
 
 export const ListComponent = (props) => {
-    const [listaPersonajes, setListaPersonajes] = useState([])
-    const [listaPlanetas, setListaPlanetas] = useState([])
-    const [listaNaves, setListaNaves] = useState([])
-
-    useEffect(() => {
-        const fetchPersonajes = async () => {
-            const data = await (
-                await fetch('https://swapi.dev/api/people/', {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })).json();
-            setListaPersonajes(data.results);
-        };
-
-        const fetchPlanetas = async () => {
-            const data = await (
-                await fetch('https://swapi.dev/api/planets/', {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })).json();
-            setListaPlanetas(data.results);
-        };
-
-        const fetchNaves = async () => {
-            const data = await (
-                await fetch('https://swapi.dev/api/starships/', {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })).json();
-            setListaNaves(data.results);
-        };
-
-        fetchPersonajes();
-        fetchPlanetas();
-        fetchNaves();
-    }, [])
+    const listaPersonajes = props.personajes
+    const listaPlanetas = props.planetas
+    const listaNaves = props.naves
 
     return (
         <><h1 class="text-danger distance">Characters</h1>
